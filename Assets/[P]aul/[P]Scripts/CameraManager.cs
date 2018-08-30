@@ -12,7 +12,7 @@ public class CameraManager : MonoBehaviour
     {
         if (freeLook == null)
         {
-            Debug.LogError("No CharacterController assigned to Object: " + gameObject.name);
+            Debug.LogError("No CameraManager assigned to Object: " + gameObject.name);
         }
     }
     void Update()
