@@ -7,19 +7,22 @@ using UnityEngine.UI;
 public class StoryCreating : MonoBehaviour
 {
     [SerializeField]
-    TMPro.TMP_Text erroeMessage;
+    private GameObject chapterStoryCanvas;
     [SerializeField]
-    TMPro.TMP_Text genreDropDown;
+    private GameObject shortStoryCanvas;
     [SerializeField]
-    Toggle ChapterToggle;
+    private TMPro.TMP_Text erroeMessage;
     [SerializeField]
-    Toggle shortToggle;
+    private TMPro.TMP_Text genreDropDown;
+    [SerializeField]
+    private TMPro.TMP_InputField checkFeild;
 
     private bool chapterStory;
     private void Start()
     {
         erroeMessage.enabled = false;
-        ChapterToggle.isOn = false;
+        shortStoryCanvas.SetActive(false);
+        chapterStoryCanvas.SetActive(false);
     }
 
     public void ChapterStoryToggle()
@@ -36,13 +39,19 @@ public class StoryCreating : MonoBehaviour
 
     public void CreateStory(TMPro.TMP_InputField storytitle)
     {
-        if (Directory.Exists("Story_Creation\\Chapter_Stories\\" + genreDropDown.text + "\\"  + storytitle.text) && chapterStory == true)
+        if (checkFeild.text == "")
         {
             erroeMessage.enabled = true;
+            erroeMessage.text = "Please enter a Title";
+        }
+        else if (Directory.Exists("Story_Creation\\Chapter_Stories\\" + genreDropDown.text + "\\"  + storytitle.text))
+        {
+            erroeMessage.enabled = true;
+          
             erroeMessage.text = storytitle.text + " Already Exists";
             Debug.Log("ChapterSotry");
         }
-        else if(Directory.Exists("Story_Creation\\Short_Stories\\" + genreDropDown.text + "\\" + storytitle.text) && chapterStory == false)
+        else if(Directory.Exists("Story_Creation\\Short_Stories\\" + genreDropDown.text + "\\" + storytitle.text))
         {
             erroeMessage.enabled = true;
             erroeMessage.text = storytitle.text + " Already Exists";
@@ -60,7 +69,15 @@ public class StoryCreating : MonoBehaviour
                 Directory.CreateDirectory("Story_Creation\\Short_Stories\\" + genreDropDown.text + "\\" + storytitle.text);
             }
         }
-       
+      if(!chapterStory)
+        {
+            shortStoryCanvas.SetActive(true);
+        }
+      else
+        {
+            chapterStoryCanvas.SetActive(true);
+        }
+        
 
     }
 }
